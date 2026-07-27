@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Router } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
@@ -9,15 +9,12 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 
 // Module routes
 import authRoutes from "./modules/auth/auth.routes";
-import usersRoutes from "./modules/users/users.routes";
-import roomsRoutes from "./modules/rooms/rooms.routes";
-import reservationsRoutes from "./modules/reservations/reservations.routes";
-import guestsRoutes from "./modules/guests/guests.routes";
-import restaurantRoutes from "./modules/restaurant/restaurant.routes";
-import housekeepingRoutes from "./modules/housekeeping/housekeeping.routes";
-import paymentsRoutes from "./modules/payments/payments.routes";
-import aiRoutes from "./modules/ai/ai.routes";
-import reportsRoutes from "./modules/reports/reports.routes";
+
+// Placeholder routers for modules not yet implemented
+const placeholder = Router();
+placeholder.use((_req, res) => {
+  res.status(501).json({ success: false, message: "Not implemented yet" });
+});
 
 const app: Application = express();
 
@@ -49,17 +46,19 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// Routes
+// Routes — implemented
 app.use("/api/auth", authRoutes);
-app.use("/api/users", usersRoutes);
-app.use("/api/rooms", roomsRoutes);
-app.use("/api/reservations", reservationsRoutes);
-app.use("/api/guests", guestsRoutes);
-app.use("/api/restaurant", restaurantRoutes);
-app.use("/api/housekeeping", housekeepingRoutes);
-app.use("/api/payments", paymentsRoutes);
-app.use("/api/ai", aiRoutes);
-app.use("/api/reports", reportsRoutes);
+
+// Routes — not yet implemented (return 501 until built)
+app.use("/api/users", placeholder);
+app.use("/api/rooms", placeholder);
+app.use("/api/reservations", placeholder);
+app.use("/api/guests", placeholder);
+app.use("/api/restaurant", placeholder);
+app.use("/api/housekeeping", placeholder);
+app.use("/api/payments", placeholder);
+app.use("/api/ai", placeholder);
+app.use("/api/reports", placeholder);
 
 // 404 handler
 app.use((_req, res) => {
