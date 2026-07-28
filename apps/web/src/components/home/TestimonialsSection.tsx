@@ -6,15 +6,13 @@ const TESTIMONIALS = [
   {
     name: "Amara T.",
     location: "Addis Ababa",
-    quote:
-      "The service was impeccable from check-in to check-out. Every staff member went above and beyond.",
+    quote: "The service was impeccable from check-in to check-out. Every staff member went above and beyond.",
     rating: 5,
   },
   {
     name: "James R.",
     location: "London",
-    quote:
-      "Stunning rooms, incredible restaurant, and the AI assistant made booking a follow-up reservation effortless.",
+    quote: "Stunning rooms, incredible restaurant, and the AI assistant made booking a follow-up reservation effortless.",
     rating: 5,
   },
   {
@@ -31,8 +29,7 @@ export function TestimonialsSection() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">
-            <span className="text-white">What Our</span>{" "}
-            <GradientText>Guests Say</GradientText>
+            <span className="text-white">What Our</span> <GradientText>Guests Say</GradientText>
           </h2>
         </div>
 
@@ -44,10 +41,10 @@ export function TestimonialsSection() {
                   <Star key={i} size={14} className="fill-gold-400 text-gold-400" />
                 ))}
               </div>
-              <p className="text-sm text-white/70">&ldquo;{t.quote}&rdquo;</p>
+              <p className="text-sm text-white/80">&ldquo;{t.quote}&rdquo;</p>
               <div className="mt-4">
                 <p className="text-sm font-semibold text-white">{t.name}</p>
-                <p className="text-xs text-white/40">{t.location}</p>
+                <p className="text-xs text-white/50">{t.location}</p>
               </div>
             </GlassCard>
           ))}
