@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AiAssistantWidget } from "@/components/ai/AiAssistantWidget";
 
 export const metadata: Metadata = {
-  title: "Heroy Hotel — Luxury Redefined",
-  description: "Book your stay at Heroy Hotel, powered by AI.",
+  title: "Heroy Hotel",
+  description: "Luxury hotel booking and management system",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen antialiased">{children}</body>
+      <body>
+        {children}
+        <AiAssistantWidget />
+      </body>
     </html>
   );
 }
