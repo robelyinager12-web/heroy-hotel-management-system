@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
-import { apiRequest } from "@/lib/api-client";
+import { apiPost } from "@/lib/api-client";
 
-export interface AiMessage {
+interface ChatMessage {
   id: string;
   role: "USER" | "ASSISTANT";
   content: string;
@@ -9,12 +9,12 @@ export interface AiMessage {
 
 interface ChatResponse {
   conversationId: string;
-  message: AiMessage;
+  message: { id: string; role: "ASSISTANT"; content: string };
 }
 
 export function useAiAssistant() {
-  const [messages, setMessages] = useState<AiMessage[]>([]);
-  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [conversationId, setConversationId] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +22,7 @@ export function useAiAssistant() {
     async (text: string) => {
       if (!text.trim() || isLoading) return;
 
-      const userMessage: AiMessage = {
+      const userMessage: ChatMessage = {
         id: `local-${Date.now()}`,
         role: "USER",
         content: text,
@@ -32,13 +32,16 @@ export function useAiAssistant() {
       setError(null);
 
       try {
-        const result = await apiRequest<ChatResponse>("/api/ai/chat", {
-          method: "POST",
-          body: JSON.stringify({ conversationId: conversationId || undefined, message: text }),
+        const data = await apiPost<ChatResponse>("/ai/chat", {
+          conversationId,
+          message: text,
         });
 
-        setConversationId(result.conversationId);
-        setMessages((prev) => [...prev, result.message]);
+        setConversationId(data.conversationId);
+        setMessages((prev) => [
+          ...prev,
+          { id: data.message.id, role: "ASSISTANT", content: data.message.content },
+        ]);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
       } finally {
@@ -48,11 +51,5 @@ export function useAiAssistant() {
     [conversationId, isLoading]
   );
 
-  const reset = useCallback(() => {
-    setMessages([]);
-    setConversationId(null);
-    setError(null);
-  }, []);
-
-  return { messages, sendMessage, isLoading, error, reset };
+  return { messages, sendMessage, isLoading, error };
 }
