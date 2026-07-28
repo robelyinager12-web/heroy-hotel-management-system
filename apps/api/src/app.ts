@@ -10,6 +10,7 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 import authRoutes from "./modules/auth/auth.routes";
 import roomsRoutes from "./modules/rooms/rooms.routes";
 import reservationsRoutes from "./modules/reservations/reservations.routes";
+import paymentsRoutes from "./modules/payments/payments.routes";
 
 const placeholder = Router();
 placeholder.use((_req, res) => {
@@ -46,12 +47,12 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", roomsRoutes);
 app.use("/api/reservations", reservationsRoutes);
+app.use("/api/payments", paymentsRoutes);
 
 app.use("/api/users", placeholder);
 app.use("/api/guests", placeholder);
 app.use("/api/restaurant", placeholder);
 app.use("/api/housekeeping", placeholder);
-app.use("/api/payments", placeholder);
 app.use("/api/ai", placeholder);
 app.use("/api/reports", placeholder);
 
