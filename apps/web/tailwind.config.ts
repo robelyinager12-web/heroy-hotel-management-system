@@ -6,12 +6,19 @@ const config: Config = {
     extend: {
       colors: {
         gold: {
-          400: "#d4af37",
-          500: "#c19a2e",
+          300: "#f0d488",
+          400: "#e6c368",
+          500: "#d4a94a",
+          600: "#b8892f",
+        },
+        ink: {
+          900: "#0b0c10",
+          800: "#14161d",
+          700: "#1c1f29",
         },
       },
       backgroundImage: {
-        "gradient-luxury": "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
+        "gradient-luxury": "linear-gradient(160deg, #0b0c10 0%, #14161d 45%, #1c1f29 100%)",
       },
     },
   },
