@@ -15,3 +15,14 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
 
   return json.data as T;
 }
+
+export async function apiGet<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_URL}${path}`, { cache: "no-store" });
+  const json = await res.json();
+
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || "Request failed");
+  }
+
+  return json.data as T;
+}
