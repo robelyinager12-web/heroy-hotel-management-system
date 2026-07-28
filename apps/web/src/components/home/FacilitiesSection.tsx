@@ -13,7 +13,7 @@ const FACILITIES = [
 
 const iconWrap =
   "mb-4 flex h-12 w-12 items-center justify-center rounded-xl " +
-  "bg-gold-400/15 text-gold-300";
+  "bg-champagne-400/15 text-champagne-300";
 
 export function FacilitiesSection() {
   return (
@@ -21,21 +21,21 @@ export function FacilitiesSection() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">
-            <span className="text-white">World-Class</span> <GradientText>Facilities</GradientText>
+            <span className="text-platinum-100">World-Class</span> <GradientText>Facilities</GradientText>
           </h2>
-          <p className="mt-3 text-white/60">Everything you need for a perfect stay</p>
+          <p className="mt-3 text-platinum-300">Everything you need for a perfect stay</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {FACILITIES.map((facility) => {
             const Icon = facility.icon;
             return (
-              <GlassCard key={facility.name} className="p-6 transition hover:border-gold-400/40">
+              <GlassCard key={facility.name} className="p-6 transition hover:border-champagne-400/40">
                 <div className={iconWrap}>
                   <Icon size={22} />
                 </div>
-                <h3 className="text-lg font-semibold text-white">{facility.name}</h3>
-                <p className="mt-1 text-sm text-white/60">{facility.description}</p>
+                <h3 className="text-lg font-semibold text-platinum-100">{facility.name}</h3>
+                <p className="mt-1 text-sm text-platinum-300">{facility.description}</p>
               </GlassCard>
             );
           })}
