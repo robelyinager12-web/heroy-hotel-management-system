@@ -7,11 +7,10 @@ import rateLimit from "express-rate-limit";
 import { env } from "./config/env";
 import { errorMiddleware } from "./middlewares/error.middleware";
 
-// Module routes
 import authRoutes from "./modules/auth/auth.routes";
 import roomsRoutes from "./modules/rooms/rooms.routes";
+import reservationsRoutes from "./modules/reservations/reservations.routes";
 
-// Placeholder routers for modules not yet implemented
 const placeholder = Router();
 placeholder.use((_req, res) => {
   res.status(501).json({ success: false, message: "Not implemented yet" });
@@ -44,13 +43,11 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// Routes — implemented
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", roomsRoutes);
+app.use("/api/reservations", reservationsRoutes);
 
-// Routes — not yet implemented
 app.use("/api/users", placeholder);
-app.use("/api/reservations", placeholder);
 app.use("/api/guests", placeholder);
 app.use("/api/restaurant", placeholder);
 app.use("/api/housekeeping", placeholder);
