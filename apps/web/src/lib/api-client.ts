@@ -1,26 +1,15 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
-
-export async function apiRequest<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
+export async function apiPost<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
 
-  const json: ApiResponse<T> = await response.json();
+  const json = await res.json();
 
-  if (!response.ok || !json.success) {
+  if (!res.ok || !json.success) {
     throw new Error(json.message || "Request failed");
   }
 
