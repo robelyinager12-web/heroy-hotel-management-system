@@ -9,6 +9,7 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 
 // Module routes
 import authRoutes from "./modules/auth/auth.routes";
+import roomsRoutes from "./modules/rooms/rooms.routes";
 
 // Placeholder routers for modules not yet implemented
 const placeholder = Router();
@@ -18,7 +19,6 @@ placeholder.use((_req, res) => {
 
 const app: Application = express();
 
-// Security & performance
 app.use(helmet());
 app.use(compression());
 app.use(
@@ -36,22 +36,20 @@ app.use(
   })
 );
 
-// Parsing & logging
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(env.isProduction ? "combined" : "dev"));
 
-// Health check
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Routes — implemented
 app.use("/api/auth", authRoutes);
+app.use("/api/rooms", roomsRoutes);
 
-// Routes — not yet implemented (return 501 until built)
+// Routes — not yet implemented
 app.use("/api/users", placeholder);
-app.use("/api/rooms", placeholder);
 app.use("/api/reservations", placeholder);
 app.use("/api/guests", placeholder);
 app.use("/api/restaurant", placeholder);
@@ -60,12 +58,10 @@ app.use("/api/payments", placeholder);
 app.use("/api/ai", placeholder);
 app.use("/api/reports", placeholder);
 
-// 404 handler
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
-// Global error handler (must be last)
 app.use(errorMiddleware);
 
 export default app;
