@@ -12,57 +12,48 @@ export function RoomShowcase() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">
-            <GradientText>Luxury</GradientText> <span className="text-white">Accommodations</span>
+            <GradientText>Luxury</GradientText> <span className="text-platinum-100">Accommodations</span>
           </h2>
-          <p className="mt-3 text-white/60">Handpicked rooms designed for every kind of stay</p>
+          <p className="mt-3 text-platinum-300">Handpicked rooms designed for every kind of stay</p>
         </div>
 
-        {isLoading && <p className="text-center text-white/50">Loading rooms...</p>}
-
+        {isLoading && <p className="text-center text-platinum-500">Loading rooms...</p>}
         {error && <p className="text-center text-red-400">{error}</p>}
-
         {!isLoading && !error && roomTypes.length === 0 && (
-          <p className="text-center text-white/50">
+          <p className="text-center text-platinum-500">
             No room types have been added yet. Check back soon.
           </p>
         )}
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {roomTypes.map((room) => (
-            <GlassCard key={room.id} className="overflow-hidden transition hover:border-gold-400/40">
-              <div className="flex h-48 items-center justify-center bg-white/5">
+            <GlassCard key={room.id} className="overflow-hidden transition hover:border-champagne-400/40">
+              <div className="flex h-48 items-center justify-center bg-platinum-100/5">
                 {room.imageUrls[0] ? (
-                  <img
-                    src={room.imageUrls[0]}
-                    alt={room.name}
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={room.imageUrls[0]} alt={room.name} className="h-full w-full object-cover" />
                 ) : (
-                  <span className="text-sm text-white/30">No image yet</span>
+                  <span className="text-sm text-platinum-500">No image yet</span>
                 )}
               </div>
 
               <div className="p-5">
-                <h3 className="text-lg font-semibold text-white">{room.name}</h3>
+                <h3 className="text-lg font-semibold text-platinum-100">{room.name}</h3>
                 {room.description && (
-                  <p className="mt-1 text-sm text-white/60 line-clamp-2">{room.description}</p>
+                  <p className="mt-1 text-sm text-platinum-300 line-clamp-2">{room.description}</p>
                 )}
 
                 <div className="mt-4 flex items-center justify-between">
                   <div>
-                    <span className="text-xl font-bold text-gold-300">${room.basePrice}</span>
-                    <span className="text-xs text-white/50"> / night</span>
+                    <span className="text-xl font-bold text-champagne-300">${room.basePrice}</span>
+                    <span className="text-xs text-platinum-500"> / night</span>
                   </div>
-                  <span className="text-xs text-white/50">Up to {room.maxOccupancy} guests</span>
+                  <span className="text-xs text-platinum-500">Up to {room.maxOccupancy} guests</span>
                 </div>
 
                 {room.amenities.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {room.amenities.slice(0, 3).map((amenity) => (
-                      <span
-                        key={amenity}
-                        className="rounded-full bg-white/10 px-2 py-0.5 text-xs text-white/70"
-                      >
+                      <span key={amenity} className="rounded-full bg-platinum-100/10 px-2 py-0.5 text-xs text-platinum-300">
                         {amenity}
                       </span>
                     ))}
