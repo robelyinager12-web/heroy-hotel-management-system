@@ -1,14 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Send, X, Loader2 } from "lucide-react";
+import { Sparkles, Send, X, Loader2, Mic, Square } from "lucide-react";
 import { useAiAssistant } from "@/hooks/useAiAssistant";
+import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
+import { useTranscribe } from "@/hooks/useTranscribe";
 
 export function AiAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const { messages, sendMessage, isLoading, error } = useAiAssistant();
+  const { isRecording, startRecording, stopRecording } = useVoiceRecorder();
+  const { transcribe, isPending: isTranscribing, error: transcribeError } = useTranscribe();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -19,6 +23,20 @@ export function AiAssistantWidget() {
     if (!text) return;
     setInput("");
     sendMessage(text);
+  }
+
+  async function handleMicClick() {
+    if (isRecording) {
+      const blob = await stopRecording();
+      if (blob.size === 0) return;
+
+      const result = await transcribe(blob);
+      if (result.text.trim()) {
+        setInput(result.text.trim());
+      }
+    } else {
+      await startRecording();
+    }
   }
 
   if (!isOpen) {
@@ -55,7 +73,7 @@ export function AiAssistantWidget() {
           <div className="flex h-full flex-col items-center justify-center text-center text-white/40">
             <Sparkles size={28} className="mb-3 text-white/20" />
             <p className="text-sm">Hi! Ask me anything about Heroy Hotel.</p>
-            <p className="mt-1 text-xs">e.g. &quot;What time is checkout?&quot;</p>
+            <p className="mt-1 text-xs">e.g. &quot;What time is checkout?&quot; · Try the mic too</p>
           </div>
         )}
 
@@ -82,19 +100,36 @@ export function AiAssistantWidget() {
           </div>
         )}
 
-        {error && (
-          <p className="text-center text-xs text-red-400">{error}</p>
+        {(error || transcribeError) && (
+          <p className="text-center text-xs text-red-400">{error || transcribeError}</p>
         )}
 
         <div ref={bottomRef} />
       </div>
 
       <div className="flex items-center gap-2 border-t border-white/10 p-3">
+        <button
+          onClick={handleMicClick}
+          disabled={isTranscribing}
+          className={`flex items-center justify-center rounded-lg p-2 text-white transition disabled:opacity-40 ${
+            isRecording ? "bg-red-500 hover:bg-red-600" : "border border-white/10 bg-white/5 hover:bg-white/10"
+          }`}
+          aria-label={isRecording ? "Stop recording" : "Start recording"}
+        >
+          {isTranscribing ? (
+            <Loader2 size={16} className="animate-spin" />
+          ) : isRecording ? (
+            <Square size={16} />
+          ) : (
+            <Mic size={16} />
+          )}
+        </button>
+
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type a message..."
+          placeholder={isRecording ? "Recording... click mic to stop" : "Type a message..."}
           className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none placeholder:text-white/40"
         />
         <button
