@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { RoomShowcase } from "@/components/home/RoomShowcase";
+import { HotelViewSection } from "@/components/home/HotelViewSection";
 import { SpecialOffers } from "@/components/home/SpecialOffers";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { FacilitiesSection } from "@/components/home/FacilitiesSection";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Navbar />
       <HeroSection />
       <RoomShowcase />
+      <HotelViewSection />
       <SpecialOffers />
       <ServicesSection />
       <FacilitiesSection />
