@@ -1,21 +1,17 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./src/app/**/*.{ts,tsx}",
-    "./src/components/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         gold: {
-          400: "#e5c07b",
-          500: "#d4af37",
-          600: "#b8952e",
+          400: "#d4af37",
+          500: "#c19a2e",
         },
       },
       backgroundImage: {
-        "gradient-aurora": "linear-gradient(120deg, #7c3aed, #db2777, #d4af37)",
+        "gradient-luxury": "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
       },
     },
   },
