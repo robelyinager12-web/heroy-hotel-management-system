@@ -1,6 +1,15 @@
 import { GradientText } from "@/components/shared/GradientText";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 
+const primaryBtn =
+  "rounded-lg bg-gradient-to-r from-gold-500 to-gold-400 " +
+  "px-8 py-3 text-sm font-semibold text-black " +
+  "transition hover:opacity-90";
+
+const secondaryBtn =
+  "rounded-lg border border-white/20 px-8 py-3 " +
+  "text-sm font-semibold text-white transition";
+
 export function HeroSection() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-luxury px-6 pt-24">
@@ -23,16 +32,10 @@ export function HeroSection() {
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          
-            href="/rooms"
-            className="rounded-lg bg-gradient-to-r from-gold-500 to-gold-400 px-8 py-3 text-sm font-semibold text-black transition hover:opacity-90"
-          >
+          <a href="/rooms" className={primaryBtn}>
             Book Now
           </a>
-          
-            href="/rooms"
-            className="rounded-lg border border-white/20 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white-5"
-          >
+          <a href="/rooms" className={secondaryBtn}>
             Explore Rooms
           </a>
         </div>
