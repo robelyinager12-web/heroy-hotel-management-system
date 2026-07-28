@@ -5,19 +5,28 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, Stars } from "@react-three/drei";
 import { WindowGrid } from "./RoomModel";
 
-function HotelTower({ position, width, height, depth, floors, windowsPerFloor }: {
+function HotelTower({
+  position,
+  width,
+  height,
+  depth,
+  floors,
+  windowsPerFloor,
+  color,
+}: {
   position: [number, number, number];
   width: number;
   height: number;
   depth: number;
   floors: number;
   windowsPerFloor: number;
+  color: string;
 }) {
   return (
     <group position={position}>
       <mesh castShadow receiveShadow>
         <boxGeometry args={[width, height, depth]} />
-        <meshStandardMaterial color="#14161d" metalness={0.3} roughness={0.6} />
+        <meshStandardMaterial color={color} metalness={0.4} roughness={0.4} />
       </mesh>
       <WindowGrid floors={floors} windowsPerFloor={windowsPerFloor} width={width} height={height} />
     </group>
@@ -28,7 +37,7 @@ function Ground() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
       <planeGeometry args={[60, 60]} />
-      <meshStandardMaterial color="#0b0c10" />
+      <meshStandardMaterial color="#2a2d3a" />
     </mesh>
   );
 }
@@ -36,22 +45,42 @@ function Ground() {
 function SceneContent() {
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <directionalLight
-        position={[8, 12, 6]}
-        intensity={1.2}
-        color="#e6c368"
-        castShadow
-      />
-      <pointLight position={[-6, 4, -4]} intensity={0.6} color="#7c3aed" />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[8, 12, 6]} intensity={1.8} color="#f0d488" castShadow />
+      <pointLight position={[-6, 4, -4]} intensity={1.2} color="#a78bfa" />
+      <pointLight position={[0, 8, 10]} intensity={0.8} color="#ffffff" />
 
-      <HotelTower position={[0, 1, 0]} width={5} height={8} depth={4} floors={12} windowsPerFloor={5} />
-      <HotelTower position={[-6, -0.5, -2]} width={3} height={5} depth={3} floors={7} windowsPerFloor={3} />
-      <HotelTower position={[6, -1, -3]} width={3} height={4} depth={3} floors={6} windowsPerFloor={3} />
+      <HotelTower
+        position={[0, 1, 0]}
+        width={5}
+        height={8}
+        depth={4}
+        floors={12}
+        windowsPerFloor={5}
+        color="#3d4152"
+      />
+      <HotelTower
+        position={[-6, -0.5, -2]}
+        width={3}
+        height={5}
+        depth={3}
+        floors={7}
+        windowsPerFloor={3}
+        color="#4a4030"
+      />
+      <HotelTower
+        position={[6, -1, -3]}
+        width={3}
+        height={4}
+        depth={3}
+        floors={6}
+        windowsPerFloor={3}
+        color="#333a4d"
+      />
 
       <Ground />
       <Stars radius={80} depth={40} count={2000} factor={2} fade speed={0.5} />
-      <Environment preset="night" />
+      <Environment preset="city" />
 
       <OrbitControls
         enablePan={false}
@@ -67,7 +96,7 @@ function SceneContent() {
 
 export function HotelScene() {
   return (
-    <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-white/10">
+    <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-[#1c1f29] to-[#0b0c10]">
       <Canvas camera={{ position: [14, 6, 14], fov: 45 }} shadows>
         <Suspense fallback={null}>
           <SceneContent />
