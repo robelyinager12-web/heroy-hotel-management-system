@@ -4,7 +4,6 @@ import { BookingWidget } from "@/components/booking/BookingWidget";
 export function HeroSection() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-luxury px-6 pt-24">
-      {/* Ambient gradient orbs for depth */}
       <div className="pointer-events-none absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-purple-600/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 right-1/4 h-96 w-96 rounded-full bg-gold-500/10 blur-3xl" />
 
@@ -32,7 +31,7 @@ export function HeroSection() {
           </a>
           
             href="/rooms"
-            className="rounded-lg border border-white/20 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
+            className="rounded-lg border border-white/20 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white-5"
           >
             Explore Rooms
           </a>
