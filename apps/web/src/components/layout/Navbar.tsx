@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn } from "lucide-react";
 import { GradientText } from "@/components/shared/GradientText";
 
 const NAV_LINKS = [
@@ -37,6 +37,13 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/login"
+            className="flex items-center gap-1.5 text-sm text-platinum-500 transition hover:text-platinum-300"
+          >
+            <LogIn size={14} />
+            Staff Login
+          </Link>
           <Link href="/rooms" className={bookNowBtn}>
             Book Now
           </Link>
@@ -63,6 +70,13 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/login"
+            onClick={() => setIsOpen(false)}
+            className="text-sm text-platinum-500"
+          >
+            Staff Login
+          </Link>
         </div>
       )}
     </nav>
