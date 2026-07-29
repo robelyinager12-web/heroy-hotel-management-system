@@ -3,6 +3,7 @@
 import { GradientText } from "@/components/shared/GradientText";
 import { GlassCard } from "@/components/shared/GlassCard";
 import { useRoomTypes } from "@/hooks/useRoomTypes";
+import { formatBirr } from "@/lib/currency";
 
 export function RoomShowcase() {
   const { roomTypes, isLoading, error } = useRoomTypes();
@@ -44,7 +45,9 @@ export function RoomShowcase() {
 
                 <div className="mt-4 flex items-center justify-between">
                   <div>
-                    <span className="text-xl font-bold text-champagne-300">${room.basePrice}</span>
+                    <span className="text-xl font-bold text-champagne-300">
+                      {formatBirr(room.basePrice)}
+                    </span>
                     <span className="text-xs text-platinum-500"> / night</span>
                   </div>
                   <span className="text-xs text-platinum-500">Up to {room.maxOccupancy} guests</span>
