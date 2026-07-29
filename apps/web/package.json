@@ -20,7 +20,7 @@
     "react-dom": "19.0.0",
     "tailwind-merge": "^2.5.5",
     "three": "^0.171.0",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
