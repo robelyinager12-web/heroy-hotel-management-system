@@ -20,7 +20,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 z-40 w-full border-b border-platinum-100/10 bg-navy-950/85 backdrop-blur-md">
+    <nav className="fixed top-0 z-40 w-full bg-navy-950/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="text-xl font-bold">
           <GradientText>Heroy</GradientText>
@@ -59,7 +59,7 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="flex flex-col gap-4 border-t border-platinum-100/10 px-6 py-4 md:hidden">
+        <div className="flex flex-col gap-4 px-6 py-4 md:hidden">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
