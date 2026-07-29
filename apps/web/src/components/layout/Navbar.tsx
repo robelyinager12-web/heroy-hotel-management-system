@@ -20,7 +20,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 z-40 w-full bg-navy-950/95 backdrop-blur-md">
+    <nav className="fixed top-0 z-40 w-full bg-navy-700 shadow-lg shadow-black/20">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="text-xl font-bold">
           <GradientText>Heroy</GradientText>
