@@ -15,6 +15,17 @@ interface AuthResponse {
   refreshToken: string;
 }
 
+const STAFF_ROLES = [
+  "SUPER_ADMIN",
+  "ADMIN",
+  "MANAGER",
+  "RECEPTIONIST",
+  "HOUSEKEEPING",
+  "RESTAURANT",
+  "CASHIER",
+  "ACCOUNTANT",
+];
+
 export function useAuth() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +40,7 @@ export function useAuth() {
       try {
         const data = await apiPost<AuthResponse>("/auth/login", { email, password });
         setAuth(data.user, data.accessToken);
-        router.push("/dashboard");
+        router.push(STAFF_ROLES.includes(data.user.role) ? "/dashboard" : "/");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Login failed");
       } finally {
