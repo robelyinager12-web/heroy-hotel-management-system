@@ -30,7 +30,7 @@ const FOOTER_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="bg-navy-950 px-6 py-16">
+    <footer className="bg-navy-700 px-6 py-16 shadow-inner shadow-black/20">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <p className="text-xl font-bold">
