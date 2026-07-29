@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding database...");
 
-  // ---------- Hotel & Branch ----------
   const hotel = await prisma.hotel.upsert({
     where: { slug: "heroy-hotel" },
     update: {},
@@ -31,12 +30,12 @@ async function main() {
 
   console.log(`Created hotel "${hotel.name}" and branch "${branch.name}"`);
 
-  // ---------- Room Types ----------
+  // Prices in Ethiopian Birr (ETB)
   const roomTypesData = [
     {
       name: "Standard Room",
       description: "Comfortable and stylish, perfect for solo travelers or couples.",
-      basePrice: 120,
+      basePrice: 4500,
       maxOccupancy: 2,
       amenities: ["Free Wi-Fi", "Air Conditioning", "Flat-screen TV", "Mini Fridge"],
       imageUrls: [],
@@ -44,7 +43,7 @@ async function main() {
     {
       name: "Deluxe Room",
       description: "Spacious room with a city view and premium furnishings.",
-      basePrice: 220,
+      basePrice: 8200,
       maxOccupancy: 3,
       amenities: ["Free Wi-Fi", "City View", "Breakfast Included", "Rain Shower", "Mini Bar"],
       imageUrls: [],
@@ -52,7 +51,7 @@ async function main() {
     {
       name: "Executive Suite",
       description: "A luxurious suite with a separate living area and premium amenities.",
-      basePrice: 350,
+      basePrice: 13500,
       maxOccupancy: 4,
       amenities: ["Free Wi-Fi", "Living Area", "Late Check-out", "Bathtub", "Nespresso Machine"],
       imageUrls: [],
@@ -60,7 +59,7 @@ async function main() {
     {
       name: "Family Room",
       description: "Extra space designed for families with children.",
-      basePrice: 280,
+      basePrice: 10800,
       maxOccupancy: 5,
       amenities: ["Free Wi-Fi", "Two Bedrooms", "Kids Amenities", "Extra Beds Available"],
       imageUrls: [],
@@ -68,7 +67,7 @@ async function main() {
     {
       name: "Presidential Suite",
       description: "Our finest suite with a private terrace and butler service.",
-      basePrice: 480,
+      basePrice: 19500,
       maxOccupancy: 4,
       amenities: ["Private Terrace", "Personal Butler", "Airport Transfer", "VIP Lounge Access", "Jacuzzi"],
       imageUrls: [],
@@ -83,8 +82,6 @@ async function main() {
 
   console.log(`Created ${roomTypes.length} room types`);
 
-  // ---------- Rooms ----------
-  // Distribute rooms across 4 floors, cycling through room types
   let roomCount = 0;
   const floors = 4;
   const roomsPerFloor = 6;
@@ -108,7 +105,6 @@ async function main() {
   }
 
   console.log(`Created ${roomCount} rooms across ${floors} floors`);
-
   console.log("Seeding complete.");
 }
 
