@@ -10,11 +10,20 @@ interface GradientTextProps {
 export function GradientText({
   children,
   className = "",
-  from = "from-champagne-300",
-  to = "to-champagne-500",
+  from = "#e8d4a3",
+  to = "#c2a052",
 }: GradientTextProps) {
   return (
-    <span className={`bg-gradient-to-r ${from} ${to} bg-clip-text text-transparent ${className}`}>
+    <span
+      className={className}
+      style={{
+        background: `linear-gradient(90deg, ${from}, ${to})`,
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        color: "transparent",
+      }}
+    >
       {children}
     </span>
   );
