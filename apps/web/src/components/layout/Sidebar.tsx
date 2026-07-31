@@ -7,6 +7,7 @@ import {
   BedDouble,
   CalendarCheck,
   Wallet,
+  FileBarChart,
   LogOut,
 } from "lucide-react";
 import { GradientText } from "@/components/shared/GradientText";
@@ -18,6 +19,7 @@ const NAV_ITEMS = [
   { label: "Rooms", href: "/dashboard/rooms", icon: BedDouble },
   { label: "Reservations", href: "/dashboard/reservations", icon: CalendarCheck },
   { label: "Finance", href: "/dashboard/finance", icon: Wallet },
+  { label: "Reports", href: "/dashboard/reports", icon: FileBarChart },
 ];
 
 export function Sidebar() {
