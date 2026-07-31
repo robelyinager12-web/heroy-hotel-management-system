@@ -1,4 +1,4 @@
-import express, { Application, Router } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
@@ -16,11 +16,7 @@ import housekeepingRoutes from "./modules/housekeeping/housekeeping.routes";
 import guestsRoutes from "./modules/guests/guests.routes";
 import restaurantRoutes from "./modules/restaurant/restaurant.routes";
 import usersRoutes from "./modules/users/users.routes";
-
-const placeholder = Router();
-placeholder.use((_req, res) => {
-  res.status(501).json({ success: false, message: "Not implemented yet" });
-});
+import reportsRoutes from "./modules/reports/reports.routes";
 
 const app: Application = express();
 
@@ -58,8 +54,7 @@ app.use("/api/housekeeping", housekeepingRoutes);
 app.use("/api/guests", guestsRoutes);
 app.use("/api/restaurant", restaurantRoutes);
 app.use("/api/users", usersRoutes);
-
-app.use("/api/reports", placeholder);
+app.use("/api/reports", reportsRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
