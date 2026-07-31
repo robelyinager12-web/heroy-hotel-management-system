@@ -15,6 +15,7 @@ import aiRoutes from "./modules/ai/ai.routes";
 import housekeepingRoutes from "./modules/housekeeping/housekeeping.routes";
 import guestsRoutes from "./modules/guests/guests.routes";
 import restaurantRoutes from "./modules/restaurant/restaurant.routes";
+import usersRoutes from "./modules/users/users.routes";
 
 const placeholder = Router();
 placeholder.use((_req, res) => {
@@ -56,8 +57,8 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/housekeeping", housekeepingRoutes);
 app.use("/api/guests", guestsRoutes);
 app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/users", usersRoutes);
 
-app.use("/api/users", placeholder);
 app.use("/api/reports", placeholder);
 
 app.use((_req, res) => {
