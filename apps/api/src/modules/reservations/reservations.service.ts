@@ -147,3 +147,13 @@ export async function updateReservationStatus(id: string, input: UpdateReservati
 export async function cancelReservation(id: string) {
   return updateReservationStatus(id, { status: "CANCELLED" });
 }
+export async function getMyReservations(userId: string) {
+  const guest = await prisma.guest.findUnique({ where: { userId } });
+  if (!guest) return [];
+
+  return prisma.reservation.findMany({
+    where: { guestId: guest.id },
+    include: { room: { include: { roomType: true } }, branch: true },
+    orderBy: { checkInDate: "desc" },
+  });
+}

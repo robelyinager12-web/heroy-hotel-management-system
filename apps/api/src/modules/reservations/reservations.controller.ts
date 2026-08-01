@@ -54,3 +54,12 @@ export async function cancelReservation(req: Request, res: Response, next: NextF
     next(error);
   }
 }
+export async function getMyReservations(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = (req as any).user.sub;
+    const data = await reservationsService.getMyReservations(userId);
+    res.json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+}
