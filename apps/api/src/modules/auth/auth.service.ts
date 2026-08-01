@@ -127,3 +127,8 @@ function sanitizeUser(user: {
     phone: user.phone,
   };
 }
+export async function getMyGuestProfile(userId: string) {
+  const guest = await prisma.guest.findUnique({ where: { userId } });
+  if (!guest) throw { statusCode: 404, message: "Guest profile not found" };
+  return { guestId: guest.id };
+}

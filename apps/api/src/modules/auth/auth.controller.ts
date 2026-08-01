@@ -41,3 +41,12 @@ export async function me(req: Request, res: Response, next: NextFunction) {
     next(error);
   }
 }
+export async function myGuestProfile(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = (req as any).user.sub;
+    const result = await authService.getMyGuestProfile(userId);
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    next(error);
+  }
+}
