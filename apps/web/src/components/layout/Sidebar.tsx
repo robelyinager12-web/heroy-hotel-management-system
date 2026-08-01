@@ -8,6 +8,9 @@ import {
   CalendarCheck,
   Wallet,
   FileBarChart,
+  Users,
+  Sparkles,
+  UtensilsCrossed,
   LogOut,
 } from "lucide-react";
 import { GradientText } from "@/components/shared/GradientText";
@@ -18,6 +21,9 @@ const NAV_ITEMS = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Rooms", href: "/dashboard/rooms", icon: BedDouble },
   { label: "Reservations", href: "/dashboard/reservations", icon: CalendarCheck },
+  { label: "Guests", href: "/dashboard/guests", icon: Users },
+  { label: "Housekeeping", href: "/dashboard/housekeeping", icon: Sparkles },
+  { label: "Restaurant", href: "/dashboard/restaurant", icon: UtensilsCrossed },
   { label: "Finance", href: "/dashboard/finance", icon: Wallet },
   { label: "Reports", href: "/dashboard/reports", icon: FileBarChart },
 ];
@@ -28,7 +34,7 @@ export function Sidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-platinum-100/10 bg-navy-900 px-4 py-6">
+    <aside className="flex h-screen w-64 shrink-0 flex-col overflow-y-auto border-r border-platinum-100/10 bg-navy-900 px-4 py-6">
       <div className="mb-8 px-2">
         <p className="text-lg font-bold">
           <GradientText>Heroy</GradientText> <span className="text-platinum-100">Admin</span>
