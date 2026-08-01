@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Send, X, Loader2, Mic, Square } from "lucide-react";
+import { Sparkles, Send, X, Loader2, Mic, Square, Volume2, VolumeX } from "lucide-react";
 import { useAiAssistant } from "@/hooks/useAiAssistant";
 import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
 import { useTranscribe } from "@/hooks/useTranscribe";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 export function AiAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export function AiAssistantWidget() {
   const { messages, sendMessage, isLoading, error } = useAiAssistant();
   const { isRecording, startRecording, stopRecording } = useVoiceRecorder();
   const { transcribe, isPending: isTranscribing, error: transcribeError } = useTranscribe();
+  const { speak, stop, speakingId, isSupported: ttsSupported } = useTextToSpeech();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -80,13 +82,24 @@ export function AiAssistantWidget() {
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.role === "USER" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
+              className={`group flex max-w-[80%] items-start gap-2 rounded-2xl px-3 py-2 text-sm ${
                 m.role === "USER"
                   ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                   : "bg-white/5 text-white/90"
               }`}
             >
-              {m.content}
+              <span>{m.content}</span>
+              {m.role === "ASSISTANT" && ttsSupported && (
+                <button
+                  onClick={() =>
+                    speakingId === m.id ? stop() : speak(m.id, m.content)
+                  }
+                  className="mt-0.5 shrink-0 text-white/30 hover:text-white/70"
+                  aria-label={speakingId === m.id ? "Stop speaking" : "Read aloud"}
+                >
+                  {speakingId === m.id ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                </button>
+              )}
             </div>
           </div>
         ))}
