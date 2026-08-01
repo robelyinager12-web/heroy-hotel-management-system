@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api-client";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore, restoreAuthFromStorage } from "@/store/authStore";
 
 interface MyBooking {
   id: string;
@@ -16,9 +16,20 @@ export function useMyBookings() {
   const [bookings, setBookings] = useState<MyBooking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRestoring, setIsRestoring] = useState(true);
   const user = useAuthStore((s) => s.user);
 
+  // Ensure the auth store is populated from sessionStorage before we decide
+  // whether the user is logged in — fixes a race where this hook checked
+  // `user` before the Navbar's restoreAuthFromStorage() had run.
   useEffect(() => {
+    restoreAuthFromStorage();
+    setIsRestoring(false);
+  }, []);
+
+  useEffect(() => {
+    if (isRestoring) return;
+
     if (!user) {
       setIsLoading(false);
       return;
@@ -41,7 +52,7 @@ export function useMyBookings() {
     return () => {
       cancelled = true;
     };
-  }, [user]);
+  }, [user, isRestoring]);
 
-  return { bookings, isLoading, error };
+  return { bookings, isLoading: isLoading || isRestoring, error };
 }
