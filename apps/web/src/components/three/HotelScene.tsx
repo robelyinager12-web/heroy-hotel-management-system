@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, Environment, Stars } from "@react-three/drei";
 import { WindowGrid } from "./RoomModel";
 
@@ -94,14 +94,90 @@ function SceneContent() {
   );
 }
 
+/**
+ * Monitors the WebGL context lifecycle and prevents context exhaustion
+ * during Fast Refresh / StrictMode remounts.
+ *
+ * - `webglcontextlost`: preventDefault so the browser can try to restore it.
+ * - `webglcontextrestored`: log recovery so the scene resumes.
+ * - On unmount: forceContextLoss() to actually release the GPU context slot
+ *   (otherwise every HMR rebuild leaks a context until the browser evicts
+ *   the oldest one — which surfaces as "THREE.WebGLRenderer: Context Lost").
+ */
+function WebGLContextGuard({ onContextLost }: { onContextLost?: () => void }) {
+  const gl = useThree((state) => state.gl);
+  const lostRef = useRef(false);
+
+  useEffect(() => {
+    const canvas = gl.domElement;
+    if (!canvas) return;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      lostRef.current = true;
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("[WebGL] Context lost — attempting restoration…");
+      }
+      onContextLost?.();
+    };
+
+    const handleContextRestored = () => {
+      lostRef.current = false;
+      if (process.env.NODE_ENV !== "production") {
+        console.info("[WebGL] Context restored.");
+      }
+    };
+
+    canvas.addEventListener("webglcontextlost", handleContextLost, false);
+    canvas.addEventListener("webglcontextrestored", handleContextRestored, false);
+
+    return () => {
+      canvas.removeEventListener("webglcontextlost", handleContextLost);
+      canvas.removeEventListener("webglcontextrestored", handleContextRestored);
+      // Release this context so the next remount can acquire a fresh one.
+      try {
+        gl.forceContextLoss();
+      } catch {
+        /* context already gone */
+      }
+    };
+  }, [gl, onContextLost]);
+
+  return null;
+}
+
 export function HotelScene() {
+  const [contextLost, setContextLost] = useState(false);
+
+  const handleContextLost = useCallback(() => {
+    setContextLost(true);
+  }, []);
+
   return (
-    <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-platinum-100/10 bg-gradient-to-b from-navy-800 to-navy-950">
-      <Canvas camera={{ position: [14, 6, 14], fov: 45 }} shadows>
+    <div className="relative h-[500px] w-full overflow-hidden rounded-2xl border border-platinum-100/10 bg-gradient-to-b from-navy-800 to-navy-950">
+      <Canvas
+        camera={{ position: [14, 6, 14], fov: 45 }}
+        shadows
+        gl={{
+          powerPreference: "high-performance",
+          antialias: true,
+          failIfMajorPerformanceCaveat: false,
+        }}
+      >
+        <WebGLContextGuard onContextLost={handleContextLost} />
         <Suspense fallback={null}>
           <SceneContent />
         </Suspense>
       </Canvas>
+
+      {contextLost && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-gradient-to-b from-navy-800 to-navy-950 text-center">
+          <span className="text-4xl">🏨</span>
+          <p className="max-w-xs text-sm text-white/70">
+            The 3D view is temporarily unavailable. It will reappear automatically.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
